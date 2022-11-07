@@ -1,7 +1,12 @@
 import Vue from 'vue';
-// import { createApp } from 'vue';
-import App from './App.vue';
+import VueRouter from 'vue-router';
 
-new Vue({
-  render: h => h(App)
-}).$mount("#app");
+const router = new VueRouter({
+  routes: [
+    { path: '/', component: () => import('./View1.vue') },
+    { path: '/b', component: () => import('./View2.vue') },
+  ]
+});
+
+new Vue({ router })
+  .$mount('#app')

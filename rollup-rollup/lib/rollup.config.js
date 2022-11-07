@@ -1,17 +1,13 @@
 // @ts-ignore
 // @ts-nocheck
-import vue from 'rollup-plugin-vue2'
-import node from '@rollup/plugin-node-resolve'
-import cjs from '@rollup/plugin-commonjs'
-import {babel} from "@rollup/plugin-babel";
-
-import typescript from '@rollup/plugin-typescript'
-import bundleScss from 'rollup-plugin-bundle-scss';
-
-import fs from 'fs'
-import path from 'path'
-
-console.log(babel)
+const  fs = require('fs');
+const  path = require('path');
+const { DEFAULT_EXTENSIONS } = require('@babel/core');
+const  { babel } = require('@rollup/plugin-babel');
+const  node = require('@rollup/plugin-node-resolve');
+const  bundleScss = require('rollup-plugin-bundle-scss');
+const  typescript = require('rollup-plugin-typescript2');
+const vue = require('rollup-plugin-vue2');
 
 const baseFolder = './src'
 
@@ -32,7 +28,16 @@ const entries = {
 }
 
 const babelOptions = {
-    babelHelpers: 'bundled'
+    babelHelpers: 'bundled',
+    extensions: [
+        ...DEFAULT_EXTENSIONS,
+        '.ts',
+        '.tsx'
+    ],
+}
+
+const nodeResolveOptions = {
+    extensions: ['.vue', '.ts']
 }
 
 const vuePluginConfig = {
@@ -42,7 +47,7 @@ const vuePluginConfig = {
             whitespace: 'condense'
         }
     },
-    defaultLang: { 
+    defaultLang: {
         script: 'ts' ,
         style: 'scss'
     },
@@ -53,7 +58,7 @@ const capitalize = (s) => {
     return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
-export default () => {
+module.exports = () => {
     let config = [
         {
             input: entries,
@@ -65,33 +70,11 @@ export default () => {
                 chunkFileNames: '[name]-[hash].mjs',
             },
             plugins: [
-                node({
-                    extensions: ['.vue', '.ts']
-                }),
+                node(nodeResolveOptions),
                 typescript(),
                 bundleScss(),
                 vue(vuePluginConfig),
                 babel(babelOptions),
-                cjs()
-            ]
-        },
-        {
-            input: entries,
-            external: ['vue'],
-            output: {
-                format: 'cjs',
-                dir: 'dist/cjs',
-                exports: 'named'
-            },
-            plugins: [
-                node({
-                    extensions: ['.vue', '.ts']
-                }),
-                typescript(),
-                bundleScss(),
-                vue(vuePluginConfig),
-                babel(babelOptions),
-                cjs()
             ]
         },
         {
@@ -108,14 +91,11 @@ export default () => {
                 }
             },
             plugins: [
-                node({
-                    extensions: ['.vue', '.ts']
-                }),
+                node(nodeResolveOptions),
                 typescript(),
                 bundleScss(),
                 vue(vuePluginConfig),
                 babel(babelOptions),
-                cjs()
             ]
         },
         {
@@ -127,14 +107,11 @@ export default () => {
                 // banner: bannerTxt
             },
             plugins: [
-                node({
-                    extensions: ['.vue', '.ts']
-                }),
+                node(nodeResolveOptions),
                 typescript(),
                 bundleScss(),
                 vue(vuePluginConfig),
                 babel(babelOptions),
-                cjs()
             ]
         }
     ]

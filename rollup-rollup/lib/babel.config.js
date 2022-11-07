@@ -3,7 +3,7 @@ const buildPresets = [
     '@babel/preset-env',
     // Config for @babel/preset-env
     {
-      modules: true
+      modules: 'auto',
       // Example: Always transpile optional chaining/nullish coalescing
       // include: [
       //   /(optional-chaining|nullish-coalescing)/

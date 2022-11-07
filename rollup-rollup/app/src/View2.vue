@@ -4,26 +4,18 @@
             <h1>ADL Test project</h1>
         </head>
         <article>
-            <ds-button @click="clickedButtonAction">Increment</ds-button>
-            <span>{{ count }}</span>
+            <ds-switch />
         </article>
     </div>
 </template>
- 
-<script>
 
-import { DsButton } from '@drivera/lib'
-/*import { multi } from '@drivera/funcs'*/
- 
+<script>
+import { DsSwitch } from '@drivera/lib'
+
 export default {
     name: "App",
     components: {
-        DsButton
-    },
-    data() {
-        return {
-            count: 0,
-        }
+        DsSwitch
     },
     methods: {
         clickedButtonAction() {
